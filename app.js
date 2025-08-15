@@ -12,7 +12,6 @@ const port = process.env.Port || 4000;
 const dbUrl = process.env.DATABASE_URL;
 
 console.log(`Server running on port ${port}`);
-// console.log(`Database URL: ${dbUrl}`);
 
 
 mongoose
