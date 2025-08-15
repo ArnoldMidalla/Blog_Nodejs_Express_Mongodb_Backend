@@ -9,7 +9,9 @@
       <div class="content">
         <p><%= blog.body %></p>
       </div>
-      <a class="delete" data-doc="<%= blog._id %>">delete</a>
+      <a class="delete" data-doc="<%= blog._id %>"
+        ><img class="delete_icon" src="/trash-can-solid-full.svg" alt="delete icon"
+      /></a>
       <!--data-doc = blog id to delete-->
     </div>
     <p><%= blog.createdAt %></p>
@@ -18,18 +20,18 @@
 
     <script>
       const trashBlog = document.querySelector("a.delete");
-      trashBlog.addEventListener('click', (event) => {
-        const endpoint = `/blog/${trashBlog.dataset.doc}`
+      trashBlog.addEventListener("click", (event) => {
+        const endpoint = `/blog/${trashBlog.dataset.doc}`;
 
         fetch(endpoint, {
-            method: 'DELETE'
+          method: "DELETE",
         })
-        //details now takes the json and turns it back to an actual usable js object
-        .then ((response) => response.json())
-        //redirect when deleted
-        .then((data) => window.location.href = data.redirect)
-        .catch ((err) => console.log(err))
-      })
+          //details now takes the json and turns it back to an actual usable js object
+          .then((response) => response.json())
+          //redirect when deleted
+          .then((data) => (window.location.href = data.redirect))
+          .catch((err) => console.log(err));
+      });
     </script>
   </body>
 </html>

@@ -122,6 +122,10 @@ textarea {
   cursor: pointer;
 }
 
+.delete_icon{
+  width: 2.7vw;
+}
+
 /* * {
   margin: 0;
   padding: 0;

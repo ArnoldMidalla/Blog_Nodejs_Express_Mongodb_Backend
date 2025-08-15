@@ -1,8 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
-const Blog = require("./models/blog"); //importing blog
 require("dotenv").config();
+const blogRoutes = require('./routes/blogsRoutes')
 
 //express app
 const app = express();
@@ -47,73 +47,7 @@ app.get("/about", (req, res) => {
   res.render("about", { title: "About" });
 });
 
-//to show all blogs
-app.get("/blog", (req, res) => {
-  //to add manually
-  // const blog = new Blog({
-  //   title: "Why women deserve less",
-  //   snippet: "i said what i said",
-  //   body: `why women deserve less`, });
-  // blog
-  //   .save() //to save
-  //   .then((result) => {
-  //     res.send(result);
-  //   })
-  //   .catch((err) => console.log(err));
-  Blog.find()
-    .sort({ createdAt: -1 })
-    .then((result) => {
-      res.render("blog", { title: "All Blogs", blog: result });
-    })
-    .catch((err) => console.log(err));
-});
-
-//blog create page
-app.get("/blog/create", (req, res) => {
-  res.render("create", { title: "create blog" });
-});
-
-//save new blog
-app.post("/blog", (req, res) => {
-  // console.log(req.body)
-  const blog = new Blog(req.body); //creating a new instance of blog
-  blog
-    .save()
-    .then((result) => {
-      res.redirect("/blog");
-    }) //to redirect to home page when done
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
-//show single blog details
-app.get("/blog/:id", (req, res) => {
-  const id = req.params.id; //basically says what ever the id from the above line is, is what this line will be too
-  console.log(id);
-  Blog.findById(id) // to retrieve the document with this id
-    .then((result) => {
-      res.render("details", { blog: result, title: "blog details" });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
-//to delete single blog
-app.delete("/blog/:id", (req, res) => {
-  const id = req.params.id;
-
-  Blog.findByIdAndDelete(id)
-    //after deleted, do this
-    //it sends as json to the front end (details.ejs)
-    .then((result) => {
-      res.json({ redirect: "/blog" });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
+app.use('/blog', blogRoutes) //the first parameter is optional. it means this only applies to those that have /blog. therefore, we can go to our blog routes code and remove the /blog/ leaving it as just / and it'll still work
 
 //404 page
 app.use((req, res) => {
