@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <%- include('./partials/nav.ejs') %>
+
+    <div class="blogs content">
+      <h2>All Blogs</h2>
+      <!-- to cycle through the blogs depending on how many there are -->
+      <% if (blog.length > 0) { %> <% blog.forEach (blog => { %>
+      <a class="single" href="/blog/<%= blog._id %>">
+        <h3 class="title"><%= blog.title %></h3>
+        <p class="snippet"><%= blog.snippet %></p>
+        <p><%= blog.createdAt %></p>
+      </a>
+      <%})%> <%} else {%>
+      <h3>There aren't any blogs.<br />Why not add one?</h3>
+      <% } %>
+    </div>
+    <%- include('./partials/footer.ejs') %>
+  </body>
+</html>

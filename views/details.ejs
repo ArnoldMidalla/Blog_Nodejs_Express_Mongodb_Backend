@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <%- include('./partials/nav.ejs') %>
+
+    <div class="details content">
+      <h2><%= blog.title %></h2>
+      <div class="content">
+        <p><%= blog.body %></p>
+      </div>
+      <a class="delete" data-doc="<%= blog._id %>">delete</a>
+      <!--data-doc = blog id to delete-->
+    </div>
+    <p><%= blog.createdAt %></p>
+
+    <%- include('./partials/footer.ejs') %>
+
+    <script>
+      const trashBlog = document.querySelector("a.delete");
+      trashBlog.addEventListener('click', (event) => {
+        const endpoint = `/blog/${trashBlog.dataset.doc}`
+
+        fetch(endpoint, {
+            method: 'DELETE'
+        })
+        //details now takes the json and turns it back to an actual usable js object
+        .then ((response) => response.json())
+        //redirect when deleted
+        .then((data) => window.location.href = data.redirect)
+        .catch ((err) => console.log(err))
+      })
+    </script>
+  </body>
+</html>
